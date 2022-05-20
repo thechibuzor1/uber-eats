@@ -1,16 +1,30 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 
-const image = "https://s.hdnux.com/photos/01/00/70/16/17007532/3/1200x0.jpg";
+const yelpRestaurantInfo = {
+  name: "Farmhouse Kitchen Thai Cuisine",
+  image: "https://s.hdnux.com/photos/01/00/70/16/17007532/3/1200x0.jpg",
+  price: "$$",
+  reviews: "1500",
+  rating: 4.5,
+  categories: [{ title: "Thai" }, { title: "Comfort Food" }],
+};
 
-const title = "Farmhouse Kitchen Thai Cuisine";
-const description = "Thai · Comfort · $$ · 🎫 · 4⭐ (2913+)";
+const { name, image, price, reviews, rating, categories } = yelpRestaurantInfo;
+
+const formattedCategories = categories.map((cat) => cat.title).join(" · ");
+
+const description = `${formattedCategories} ${
+  price ? " · " + price : ""
+} · 🎟️ · ${rating} ⭐ (${reviews}+)`;
+
+
 
 export default function About() {
   return (
     <View>
       {<RestaurantImage image={image} />}
-      {<RestaurantTitle text={title} />}
+      {<RestaurantName name={name} />}
       {<RestaurantDescription description={description} />}
     </View>
   );
@@ -25,7 +39,7 @@ const RestaurantImage = (props) => (
     }}
   />
 );
-const RestaurantTitle = (props) => (
+const RestaurantName= (props) => (
   <Text
     style={{
       fontSize: 29,
@@ -34,7 +48,7 @@ const RestaurantTitle = (props) => (
       marginHorizontal: 15,
     }}
   >
-    {props.text}
+    {props.name}
   </Text>
 );
 const RestaurantDescription = (props) => (
@@ -42,7 +56,7 @@ const RestaurantDescription = (props) => (
     style={{
       marginTop: 10,
       marginHorizontal: 15,
-      fontWeight: '400',
+      fontWeight: "400",
       fontSize: 15.5,
     }}
   >
