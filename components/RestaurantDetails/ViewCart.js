@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
+import firebase from "../../Firebase";
 
 export default function ViewCart() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,6 +18,16 @@ export default function ViewCart() {
     style: "currency",
     currency: "USD",
   });
+
+  const addOrderToFireBase = () => {
+    const db = firebase.firestore();
+    db.collection("orders").add({
+      items: items,
+      restaurantName: restaurantName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setModalVisible(false);
+  };
 
   const styles = StyleSheet.create({
     modalContainer: {
@@ -68,24 +79,32 @@ export default function ViewCart() {
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity style={{
-                marinTop: 20,
-                backgroundColor: 'black',
-                alignItems: 'center',
-                padding: 13,
-                borderRadius: 30,
-                width: 300,
-                position: 'relative',
-              }}
-              onPress={() => setModalVisible(false)}>
-                <Text style={{color: 'white', fontSize: 20}}>Checkout</Text>
-                <Text style={{
-                  position: 'absolute',
-                  right: 20,
-                  color: 'white',
-                  fontSize: 15,
-                  top: 17
-                }}>{total ? '$' + Math.round(totalUSD * 100) / 100 : ""}</Text>
+              <TouchableOpacity
+                style={{
+                  marinTop: 20,
+                  backgroundColor: "black",
+                  alignItems: "center",
+                  padding: 13,
+                  borderRadius: 30,
+                  width: 300,
+                  position: "relative",
+                }}
+                onPress={() => {
+                  addOrderToFireBase();
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
+                <Text
+                  style={{
+                    position: "absolute",
+                    right: 20,
+                    color: "white",
+                    fontSize: 15,
+                    top: 17,
+                  }}
+                >
+                  {total ? "$" + Math.round(totalUSD * 100) / 100 : ""}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
