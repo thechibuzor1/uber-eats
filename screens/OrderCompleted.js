@@ -76,7 +76,7 @@ export default function OrderCompleted() {
           {Math.round(totalUSD * 100) / 100}
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <MenuItems foods={lastOrder.items} hideCheckbox={true} />
+          <MenuItems foods={lastOrder.items} hideCheckbox={true} marginLeft={10}/>
           <LottieView
             style={{ height: 200, alignSelf: "center" }}
             source={require("../assests/animations/cooking.json")}
